@@ -12,3 +12,7 @@ Get-Command *virtualenv*
 
 workon mynewenv
 deactivate
+
+# Dependencies
+flask
+pymongo
