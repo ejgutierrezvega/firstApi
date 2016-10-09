@@ -4,15 +4,20 @@ This is an initial approach to create an restful api on python.
 
 First commit to github through vs code.
 
+MongoDB
+    net start MongoDB
+    net stop MongoDB
+    
 Power shell commands.
-http://virtualenvwrapper.readthedocs.io/en/latest/command_ref.html
+    http://virtualenvwrapper.readthedocs.io/en/latest/command_ref.html
 
-Get-Command *virtualenv*
-**(firstenv)
+    Get-Command *virtualenv*
+    **(firstenv)
 
-workon mynewenv
-deactivate
+    workon mynewenv
+    StartProcess -filePath
+    deactivate
 
 # Dependencies
-flask
-pymongo
+    flask
+    pymongo
