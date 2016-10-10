@@ -6,6 +6,7 @@ from flask import jsonify
 from repository import mongorepository
 from datetime import datetime
 from bson.json_util import dumps
+from customexception import myexception
 import logging
 
 file_handler = logging.FileHandler('apiLog.log')
@@ -13,18 +14,27 @@ file_handler = logging.FileHandler('apiLog.log')
 app = Flask(__name__)
 app.config['DEBUG'] = True
 app.logger.addHandler(file_handler)
-app.logger.setLevel(logging.INFO)
+#app.logger.setLevel(logging.INFO)
 
 @app.route('/')
 def index():
-    document = mongorepository.queryRestaurantByRestaurantId("40356151")
-    return dumps(document)
+    if request.method == 'GET':
+        repo = mongorepository.MongoRepository('test', 'restaurants')
+        try:
+            document = repo.FindCollectionById("40356151")
+        except myexception.MyException, e:
+            resp = Response(e.valuetojson(), status=500, mimetype='application/json')
+        else:
+            data = dumps(document, indent=indent)
+            resp = Response(data, status=200, mimetype='application/json')
+        return resp
 
 @app.route('/person/', methods = ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'])
 def api_person():
     app.logger.info('trace for api person')
+    app.logger.error('this is an error')
     if request.method == 'GET':
-        document = mongorepository.queryRestaurantByRestaurantId("40356151")
+        document = mongorepository.FindCollectionById("40356151")
         data = dumps(document)
         #js = json.dumps(data)
         resp = Response(data, status=200, mimetype='application/json')
@@ -59,7 +69,7 @@ def api_person():
             "restaurant_id": "41704620"
         }
 
-        mongorepository.insertToRestaurants(item)
+        mongorepository.InsertItem(item)
         return 'Hi stranger'
         
     elif request.method == 'PATCH':

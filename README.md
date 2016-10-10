@@ -15,7 +15,7 @@ Power shell commands.
     **(firstenv)
 
     workon mynewenv
-    StartProcess -filePath
+    Start-Process -FilePath
     deactivate
 
 # Dependencies
