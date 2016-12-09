@@ -26,14 +26,16 @@ class MongoRepository:
     
     def mongoclient(self):
         client = MongoClient("mongodb://localhost:27017")
-        try:        
-            client.is_mongos()
+
+        try:
+            client.server_info()
         except errors.ConnectionFailure, e:
             raise myexception.MyException("Custom exception: Could not connect to server: %s" % e, 'ERR-REPO-001')
         except errors.ServerSelectionTimeoutError, e:
             raise myexception.MyException("Custom exception: Could not connect to server: %s" % e, 'ERR-REPO-001')
         except:
             raise myexception.MyException("Custom exception: Could not connect to server", 'ERR-REPO-001')
+
         return client
         
     def getmongodb(self):
