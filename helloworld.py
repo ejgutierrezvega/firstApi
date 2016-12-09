@@ -25,7 +25,7 @@ def index():
         except myexception.MyException, e:
             resp = Response(e.valuetojson(), status=500, mimetype='application/json')
         else:
-            data = dumps(document, indent=indent)
+            data = dumps(document)
             resp = Response(data, status=200, mimetype='application/json')
         return resp
 
@@ -33,8 +33,9 @@ def index():
 def api_person():
     app.logger.info('trace for api person')
     app.logger.error('this is an error')
+    repo = mongorepository.MongoRepository('test', 'restaurants')
     if request.method == 'GET':
-        document = mongorepository.FindCollectionById("40356151")
+        document = repo.FindCollectionById("40356151")
         data = dumps(document)
         #js = json.dumps(data)
         resp = Response(data, status=200, mimetype='application/json')
